@@ -1,0 +1,97 @@
+﻿<Page
+    x:Class="UWPMidTerm3.Pages.DownloadManager"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWPMidTerm3.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="using:UWPMidTerm3.Models"
+    mc:Ignorable="d">
+
+    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <!--标题-->
+        <TextBlock Text="下载管理" FontSize="24" Margin="20, 20, 0, 5"/>
+
+        <Line Height="5" Stretch="Fill" Stroke="Black" StrokeThickness="0.3" X1="1"/>
+
+        <!--播放音乐、搜索-->
+        <RelativePanel>
+            <StackPanel Name="DisplayAll" Orientation="Horizontal" CornerRadius="3" BorderBrush="Gray" BorderThickness="1" HorizontalAlignment="Left"
+                        PointerEntered="Cursor_PointerEntered" PointerExited="Cursor_PointerExited" PointerPressed="DisplayAll_PointerPressed"
+                        RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignLeftWithPanel="True" Padding="3" Margin="10, 0, 0, 0">
+                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE102;" VerticalAlignment="Center" Margin="10, 0, 3, 0"/>
+                <TextBlock Text="播放全部" VerticalAlignment="Center" Margin="0, 0, 10, 0"/>
+            </StackPanel>
+            <!-- <TextBlock Name="Where" FontSize="12" Foreground="Gray" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.RightOf="DisplayAll"
+                       Margin="10, 0, 10, 0" TextTrimming="CharacterEllipsis"/> -->
+            <StackPanel Name="Where" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.RightOf="DisplayAll" Margin="10, 0, 10, 0" Orientation="Horizontal"
+                        PointerEntered="Cursor_PointerEntered" PointerExited="Cursor_PointerExited" PointerPressed="Where_PointerPressed" CornerRadius="4" Background="LightGray"
+                        BorderBrush="Gray" BorderThickness="1" Padding="3">
+                <TextBlock Text="打开目录" VerticalAlignment="Center" TextAlignment="Center" Foreground="White" Margin="10, 0, 10, 0"/>
+            </StackPanel>
+            <AutoSuggestBox Name="SearchMusic" Width="200" PlaceholderText="搜索我下载的音乐" HorizontalAlignment="Right" QueryIcon="Find" Margin="0, 0, 10, 0" 
+                            VerticalAlignment="Center" TextChanged="AutoSuggestBox_TextChanged" QuerySubmitted="SearchMusic_QuerySubmitted"
+                            RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignRightWithPanel="True"/>
+        </RelativePanel>
+
+        <!--列表-->
+        <!--表头-->
+        <Line Height="5" Stretch="Fill" Stroke="Black" StrokeThickness="0.3" X1="1"/>
+        <Grid Margin="20, 0, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="音乐标题" Grid.Column="0"/>
+            <TextBlock Text="歌手" Grid.Column="1"/>
+            <TextBlock Text="专辑" Grid.Column="2"/>
+            <TextBlock Text="时长" Grid.Column="3" Margin="-6, 0, 0, 0"/>
+            <TextBlock Text="大小" Grid.Column="4" Margin="-10, 0, 0, 0"/>
+        </Grid>
+        <Line Height="5" Stretch="Fill" Stroke="Black" StrokeThickness="0.3" X1="1"/>
+
+        <!--内容-->
+        <ListView Name="myMusicList" ItemsSource="{x:Bind musicManager.downloadedLongList.songs}" IsItemClickEnabled="True" ItemClick="myMusicList_ItemClick">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="md:Song">
+                    <UserControl>
+                        <Grid Height="auto" Margin="10, 0, 0, 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{x:Bind title}" Grid.Column="0"  TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                            <TextBlock Text="{x:Bind singers, Converter={StaticResource singersConvert}}" Grid.Column="1" Foreground="#666666"  TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                            <TextBlock Text="{x:Bind album.title}" Grid.Column="2" Foreground="#666666"  TextTrimming="CharacterEllipsis" Margin="0, 0, 5, 0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{x:Bind interval}" Grid.Column="3" Foreground="#999999" VerticalAlignment="Center"/>
+                            <TextBlock Text="{x:Bind size}" Grid.Column="4" Foreground="#999999" VerticalAlignment="Center"/>
+                            <AppBarButton Grid.Column="5" Icon="Setting" IsCompact="True" VerticalAlignment="Center" Width="40" Margin="10, 0, 0, 0">
+                                <AppBarButton.Flyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Play" Click="PlayMenuFlyoutItem_Click"/>
+                                        <MenuFlyoutItem Text="Delete" Click="DeleteMenuFlyoutItem_Click"/>
+                                        <MenuFlyoutItem Text="Share" Click="ShareMenuFlyoutItem_Click"/>
+                                    </MenuFlyout>
+                                </AppBarButton.Flyout>
+                            </AppBarButton>
+                        </Grid>
+                    </UserControl>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackPanel>
+</Page>

@@ -1,0 +1,242 @@
+﻿<Page
+    x:Class="UWPMidTerm3.Pages.FindMusic"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWPMidTerm3.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="using:UWPMidTerm3.Models"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Name="border1" Visibility="Collapsed"/>
+        <Border Name="border2" Visibility="Collapsed"/>
+        <Border Name="border3" Visibility="Collapsed"/>
+        <Border Name="border4" Visibility="Collapsed"/>
+
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="歌单推荐" FontSize="20" HorizontalAlignment="Center" Margin="10"/>
+            <GridView Name="SongSheetTags" ItemsSource="{x:Bind tags}" IsItemClickEnabled="True" ItemClick="SongSheetTags_ItemClick"
+                      SelectionMode="None" ItemContainerStyle="{StaticResource GridViewItemNoneStyle}" HorizontalAlignment="Center">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="md:Tag">
+                        <Grid Background="{x:Null}" Width="70" Margin="5, 10, 5, 10" BorderBrush="{x:Bind borderColor}" BorderThickness="0, 0, 0, 1">
+                            <Rectangle RadiusX="5" RadiusY="5" Width="70" Height="30" Fill="{x:Bind background}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{x:Bind name}" Foreground="{x:Bind foreground}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+            <FlipView Name="SongSheetsPanel" SelectionChanged="SongSheetsPanel_SelectionChanged" Background="White" Margin="10"
+                      HorizontalAlignment="Center" ItemsSource="{x:Bind songSheets}">
+                <FlipView.ItemTemplate>
+                    <DataTemplate x:DataType="md:ModelCollection">
+                        <GridView Name="SongSheetGridView" SelectionMode="None" IsItemClickEnabled="True" ItemClick="SongSheetGridView_ItemClick"
+                                  ItemsSource="{x:Bind collection}" ItemContainerStyle="{StaticResource GridViewItemNoneStyle}" >
+                            <GridView.ItemTemplate>
+                                <DataTemplate x:DataType="md:SongSheet">
+                                    <Canvas Name="SongSheetCanvas" Width="{Binding ElementName=border1, Path=Width}" Margin="10"
+                                            PointerEntered="SongSheetCanvas_PointerEntered" PointerExited="SongSheetCanvas_PointerExited">
+                                        <StackPanel Canvas.ZIndex="0" Width="{Binding ElementName=border1, Path=Width}">
+                                            <Image Source="{x:Bind cover}" Width="{Binding ElementName=border1, Path=Width}" HorizontalAlignment="Left"/>
+                                            <TextBlock Text="{x:Bind title}" FontSize="12" Height="20" VerticalAlignment="Center" Width="{Binding ElementName=border1, Path=Width}" TextTrimming="CharacterEllipsis"/>
+                                            <StackPanel Orientation="Horizontal" Height="20">
+                                                <TextBlock Text="播放量：" FontSize="12" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{x:Bind visitnum}" FontSize="12" Height="20" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <Grid Name="SongSheetCover" Background="Black" Width="{Binding ElementName=border1, Path=Width}"
+                                                    Canvas.ZIndex="1" Height="0" Opacity="0.5">
+                                            <Ellipse Name="SongSheetEllipse" Fill="White" Width="60" Height="60" PointerPressed="PlayAll_PointerPressed"/>
+                                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE102;" HorizontalAlignment="Center" 
+                                                       VerticalAlignment="Center" FontSize="30" PointerPressed="PlayAll_PointerPressed"/>
+                                        </Grid>
+                                    </Canvas>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </DataTemplate>
+                </FlipView.ItemTemplate>
+            </FlipView>
+            <GridView Name="SongSheetsIndicator" ItemContainerStyle="{StaticResource GridViewItemNoneStyle}" HorizontalAlignment="Center"
+                      IsItemClickEnabled="True" ItemClick="SongSheetsIndicator_ItemClick" SelectionMode="None" ItemsSource="{x:Bind brushes}">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="md:ModelCollection">
+                        <Ellipse Fill="{x:Bind brush}" Height="10" Width="10" StrokeThickness="1" Stroke="Black"/>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="新歌首发" FontSize="20" HorizontalAlignment="Center" Margin="10"/>
+            <GridView Name="NewMusicTags" ItemsSource="{x:Bind tags2}" IsItemClickEnabled="True" ItemClick="NewMusicTags_ItemClick"
+                      SelectionMode="None" ItemContainerStyle="{StaticResource GridViewItemNoneStyle}" HorizontalAlignment="Center">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="md:Tag">
+                        <Grid Background="{x:Null}" Width="70" Margin="5, 10, 5, 10" BorderBrush="{x:Bind borderColor}" BorderThickness="0, 0, 0, 1">
+                            <Rectangle RadiusX="5" RadiusY="5" Width="70" Height="30" Fill="{x:Bind background}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{x:Bind name}" Foreground="{x:Bind foreground}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+            <FlipView Name="NewSongsPanel" SelectionChanged="NewSongsPanel_SelectionChanged" Background="White" Margin="10"
+                      HorizontalAlignment="Center" ItemsSource="{x:Bind newSongs}">
+                <FlipView.ItemTemplate>
+                    <DataTemplate x:DataType="md:ModelCollection">
+                        <GridView Name="NewSongGridView"  SelectionMode="None" IsItemClickEnabled="True" ItemClick="NewSongGridView_ItemClick"
+                                  ItemsSource="{x:Bind collection2}" ItemContainerStyle="{StaticResource GridViewItemNoneStyle}">
+                            <GridView.ItemTemplate>
+                                <DataTemplate x:DataType="md:Song">
+                                    <StackPanel Name="NewSongPanel" Orientation="Horizontal" Width="{Binding ElementName=border2, Path=Width}" 
+                                                Height="{Binding ElementName=border2, Path=Height}" Margin="10">
+                                        <Canvas Width="{Binding ElementName=border2, Path=Height}" Height="{Binding ElementName=border2, Path=Height}"
+                                            PointerEntered="SongImageCanvas_PointerEntered" PointerExited="SongImageCanvas_PointerExited"
+                                            Name="SongImageCanvas" HorizontalAlignment="Left">
+                                            <Image Width="{Binding ElementName=border2, Path=Height}" Height="{Binding ElementName=border2, Path=Height}"
+                                               Source="{x:Bind cover}"/>
+                                            <Grid Name="NewSongCover" Background="Black" Width="{Binding ElementName=border2, Path=Height}"
+                                                    Canvas.ZIndex="1" Height="0" Opacity="0.5">
+                                                <Ellipse Name="NewSongEllipse" Fill="White" Width="30" Height="30" PointerPressed="PlayAll_PointerPressed"/>
+                                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE102;" HorizontalAlignment="Center" 
+                                                       VerticalAlignment="Center" FontSize="16" PointerPressed="PlayAll_PointerPressed"/>
+                                            </Grid>
+                                        </Canvas>
+                                        <RelativePanel Width="{Binding ElementName=border1, Path=Height}" Margin="5">
+                                            <StackPanel RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+                                                <TextBlock Text="{x:Bind title}" FontSize="12" Height="20" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{x:Bind singers, Converter={StaticResource singersConvert}}" FontSize="10" Height="20" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                            <TextBlock Text="{x:Bind interval}" FontSize="12" Height="20" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                                       RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignRightWithPanel="True"/>
+                                        </RelativePanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </DataTemplate>
+                </FlipView.ItemTemplate>
+            </FlipView>
+            <GridView Name="NewSongsIndicator" ItemContainerStyle="{StaticResource GridViewItemNoneStyle}" HorizontalAlignment="Center"
+                      IsItemClickEnabled="True" ItemClick="NewSongsIndicator_ItemClick" SelectionMode="None" ItemsSource="{x:Bind brushes2}">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="md:ModelCollection">
+                        <Ellipse Fill="{x:Bind brush}" Height="10" Width="10" StrokeThickness="1" Stroke="Black"/>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+            <TextBlock Text="专辑推送" FontSize="20" HorizontalAlignment="Center" Margin="10"/>
+            <GridView Name="NewAlbumTags" ItemsSource="{x:Bind tags3}" IsItemClickEnabled="True" ItemClick="NewAlbumTags_ItemClick"
+                      SelectionMode="None" ItemContainerStyle="{StaticResource GridViewItemNoneStyle}" HorizontalAlignment="Center">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="md:Tag">
+                        <Grid Background="{x:Null}" Width="70" Margin="5, 10, 5, 10" BorderBrush="{x:Bind borderColor}" BorderThickness="0, 0, 0, 1">
+                            <Rectangle RadiusX="5" RadiusY="5" Width="70" Height="30" Fill="{x:Bind background}" VerticalAlignment="Center"/>
+                            <TextBlock Text="{x:Bind name}" Foreground="{x:Bind foreground}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+            <FlipView Name="NewAlbumsPanel" SelectionChanged="NewAlbumsPanel_SelectionChanged" Background="White" Margin="10"
+                      HorizontalAlignment="Center" ItemsSource="{x:Bind newAlbums}">
+                <FlipView.ItemTemplate>
+                    <DataTemplate x:DataType="md:ModelCollection">
+                        <GridView Name="NewAlbumGridView" SelectionMode="None" IsItemClickEnabled="True" ItemClick="NewAlbumGridView_ItemClick"
+                                  ItemsSource="{x:Bind collection3}" ItemContainerStyle="{StaticResource GridViewItemNoneStyle}">
+                            <GridView.ItemTemplate>
+                                <DataTemplate x:DataType="md:Album">
+                                    <StackPanel Name="NewAlbumPanel" Width="{Binding ElementName=border3, Path=Width}" 
+                                                Height="{Binding ElementName=border3, Path=Height}" Margin="10">
+                                        <Canvas Width="{Binding ElementName=border3, Path=Width}" Height="{Binding ElementName=border3, Path=Width}"
+                                                PointerEntered="AlbumImageCanvas_PointerEntered" PointerExited="AlbumImageCanvas_PointerExited"
+                                                Name="AlbumImageCanvas" >
+                                            <Image Width="{Binding ElementName=border3, Path=Width}" Source="{x:Bind cover}"/>
+                                            <Grid Name="NewAlbumCover" Background="Black" Width="{Binding ElementName=border3, Path=Width}"
+                                                    Canvas.ZIndex="1" Height="0" Opacity="0.5">
+                                                <Ellipse Name="NewAlbumEllipse" Fill="White" Width="50" Height="50" PointerPressed="PlayAll_PointerPressed"/>
+                                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE102;" HorizontalAlignment="Center" 
+                                                       VerticalAlignment="Center" FontSize="25" PointerPressed="PlayAll_PointerPressed"/>
+                                            </Grid>
+                                        </Canvas>
+                                        <TextBlock Text="{x:Bind title}" FontSize="12" Height="20" HorizontalAlignment="Center"
+                                                   Width="{Binding ElementName=border3, Path=Width}"/>
+                                        <TextBlock Text="{x:Bind singers, Converter={StaticResource singersConvert}}" FontSize="12" Height="20" 
+                                                   HorizontalAlignment="Center" Width="{Binding ElementName=border3, Path=Width}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </DataTemplate>
+                </FlipView.ItemTemplate>
+            </FlipView>
+            <GridView Name="NewAlbumsIndicator" ItemContainerStyle="{StaticResource GridViewItemNoneStyle}" HorizontalAlignment="Center"
+                      IsItemClickEnabled="True" ItemClick="NewAlbumsIndicator_ItemClick" SelectionMode="None" ItemsSource="{x:Bind brushes3}">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="md:ModelCollection">
+                        <Ellipse Fill="{x:Bind brush}" Height="10" Width="10" StrokeThickness="1" Stroke="Black"/>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3">
+            <TextBlock Text="排行榜" FontSize="20" HorizontalAlignment="Center" Margin="10"/>
+            <GridView Name="TopListGridView"  HorizontalAlignment="Center" ItemContainerStyle="{StaticResource GridViewItemNoneStyle}"
+                      SelectionMode="None" IsItemClickEnabled="True" ItemClick="TopListGridView_ItemClick" ItemsSource="{x:Bind charts}">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="md:Chart">
+                        <Canvas Name="TopListCanvas" Width="{Binding ElementName=border1, Path=Width}" Height="{Binding ElementName=border4, Path=Height}" 
+                                PointerEntered="TopListCanvas_PointerEntered" PointerExited="TopListCanvas_PointerExited" Margin="10">
+                            <Image Height="{Binding ElementName=border4, Path=Height}" Source="ms-appx:///Assets/smg.jpg" Canvas.Top="0"
+                                   Canvas.Left="{x:Bind picLeft, Mode=TwoWay}">
+                                <Image.Clip>
+                                    <RectangleGeometry Rect="{x:Bind rect, Mode=TwoWay}"/>
+                                </Image.Clip>
+                            </Image>
+                            <Grid Name="TopListPanel" Background="Black" Width="{Binding ElementName=border1, Path=Width}" 
+                                  Height="{Binding ElementName=border4, Path=Height}" Canvas.ZIndex="1" Opacity="0.5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="3*"/>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="8*"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock Text="{x:Bind type}" FontSize="18" HorizontalAlignment="Center" Height="20" Margin="0, 0, 0, 5"/>
+                                    <TextBlock Text="{x:Bind title}" FontSize="16" HorizontalAlignment="Center" Height="20"/>
+                                </StackPanel>
+                                <Grid Width="50" Height="50" Grid.Row="1">
+                                    <Rectangle Name="TopListEllipse" RadiusX="0" RadiusY="0" Fill="White" Width="50" Height="2" PointerPressed="PlayAll_PointerPressed"/>
+                                    <TextBlock Name="TopListPlay" FontFamily="Segoe MDL2 Assets" Text="&#xE102;" FontSize="25" HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center" Opacity="0" PointerPressed="PlayAll_PointerPressed"/>
+                                </Grid>
+                                <ListView Grid.Row="2" Name="SongListView" ItemsSource="{x:Bind songs}" SelectionMode="None" 
+                                          ItemContainerStyle="{StaticResource ListViewItemNonwStyle}">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="md:Song">
+                                            <StackPanel Margin="5" Height="{Binding ElementName=border4, Path=Width}" Width="{Binding ElementName=border1, Path=Width}">
+                                                <TextBlock Text="{x:Bind title}" Margin="10, 0, 0, 0" VerticalAlignment="Center" FontSize="12" Foreground="White"/>
+                                                <TextBlock Text="{x:Bind singers, Converter={StaticResource singersConvert}}" Margin="20, 0, 0, 0" 
+                                                           VerticalAlignment="Center" FontSize="12" Foreground="White"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Grid>
+                        </Canvas>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -1,0 +1,117 @@
+﻿<Page
+    x:Class="UWPMidTerm.Pages.FindMusic"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWPMidTerm.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:UWPMidTerm.Models"
+    xmlns:converter="using:UWPMidTerm.Converters"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <converter:SingersConvert x:Key="singersConvert"/>
+        <converter:RectConvert x:Key="numConverter"/>
+        <converter:LeftConvert x:Key="leftConverter"/>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Name="width1" Visibility="Collapsed"/>
+        <Border Name="width2" Visibility="Collapsed"/>
+        <Border Name="width3" Visibility="Collapsed"/>
+        <Border Name="width4" Visibility="Collapsed"/>
+        
+        <RelativePanel Grid.Row="0">
+            <TextBlock Text="推荐歌单" FontSize="18" Margin="10, 10, 0, 0" RelativePanel.AlignLeftWithPanel="True"/>
+            <Button Name="SongSheetRecommend" Background="White" Content="更多>" FontSize="16" Height="40" VerticalAlignment="Center" Margin="0, 0, 10, 0" RelativePanel.AlignRightWithPanel="True" Click="SongSheetRecommend_Click"/>
+        </RelativePanel>
+        <Canvas Name="MyCanvas" Grid.Row="1" Height="{Binding ElementName=width1, Path=Height}" PointerMoved="MyCanvas_PointerMoved">
+            <GridView Name="RecommendSongSheet" ItemsSource="{x:Bind songSheets}" IsItemClickEnabled="True" ItemClick="RecommendSongSheet_ItemClick">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="data:SongSheet">
+                        <StackPanel Width="{Binding ElementName=width1, Path=Width}" Margin="10, 0, 10, 0">
+                            <Image Height="{Binding ElementName=width1, Path=Width}" Width="{Binding ElementName=width1, Path=Width}" Source="{x:Bind cover}"/>
+                            <TextBlock Height="30" Width="{Binding ElementName=width1, Path=Width}" Text="{x:Bind dissname}" FontSize="12"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+            <Button Name="RightControl" Opacity="0.5" Width="50" Height="50" VerticalAlignment="Center" FontFamily="Segoe MDL2 Assets" Content="&#xE09F;" Click="RightControl_Click"/>
+        </Canvas>
+
+        <RelativePanel Grid.Row="2">
+            <TextBlock Text="最新歌曲" FontSize="18" Height="40" Margin="10, 10, 0, 0" RelativePanel.AlignLeftWithPanel="True"/>
+            <Button Name="NewMusicRecommend" Background="White" Content="更多>" FontSize="16" Height="40" VerticalAlignment="Center" Margin="0, 0, 10, 0" RelativePanel.AlignRightWithPanel="True" Click="NewMusicRecommend_Click"/>
+        </RelativePanel>
+        <GridView Name="RecommendNewMusic" Grid.Row="3" ItemsSource="{x:Bind songs}" IsItemClickEnabled="True" ItemClick="RecommendNewMusic_ItemClick">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="data:Song">
+                    <StackPanel Orientation="Horizontal" Width="{Binding ElementName=width2, Path=Width}" Height="100" Margin="10, 10, 10, 0">
+                        <Image Height="100" Width="100" Source="{x:Bind AlbumCover}"/>
+                        <StackPanel Margin="10, 0, 0, 0">
+                            <TextBlock Height="20" FontSize="12" Text="{x:Bind Name}"/>
+                            <TextBlock Height="20" FontSize="12" Text="{x:Bind Singers, Converter={StaticResource singersConvert}}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+        
+        <RelativePanel Grid.Row="4">
+            <TextBlock Text="排行榜" FontSize="18" Height="40" Margin="10, 10, 0, 0" RelativePanel.AlignLeftWithPanel="True"/>
+            <Button Name="ListTopMusic" Background="White" Content="更多>" FontSize="16" Height="40" VerticalAlignment="Center" Margin="0, 0, 10, 0" RelativePanel.AlignRightWithPanel="True" Click="ListTopMusic_Click"/>
+        </RelativePanel>
+        <GridView Name="TopListMusic" Grid.Row="5" ItemsSource="{x:Bind charts}" IsItemClickEnabled="True" ItemClick="TopListMusic_ItemClick">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="data:Chart">
+                    <Canvas Width="179.2" Height="400" Margin="10, 10, 10, 0">
+                        <Image Height="400" Source="ms-appx:///Assets/smg.jpg" Canvas.Left="{x:Bind num, Converter={StaticResource leftConverter}}" Canvas.Top="0">
+                            <Image.Clip>
+                                <RectangleGeometry Rect="{x:Bind num, Converter={StaticResource numConverter}}"/>
+                            </Image.Clip>
+                        </Image>
+                        <StackPanel Canvas.ZIndex="1" Width="179.2">
+                            <TextBlock Text="{x:Bind type}" Margin="0, 40, 0, 0" FontSize="14" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{x:Bind name}" Margin="0, 10, 0, 0" FontSize="16" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{x:Bind tracks[0]}" Margin="20, 30, 0, 0" FontSize="12"/>
+                            <TextBlock Text="{x:Bind singers[0]}" Margin="30, 10, 0, 0" FontSize="12"/>
+                            <TextBlock Text="{x:Bind tracks[1]}" Margin="20, 20, 0, 0" FontSize="12"/>
+                            <TextBlock Text="{x:Bind singers[1]}" Margin="30, 10, 0, 0" FontSize="12"/>
+                            <TextBlock Text="{x:Bind tracks[2]}" Margin="20, 20, 0, 0" FontSize="12"/>
+                            <TextBlock Text="{x:Bind singers[2]}" Margin="30, 10, 0, 0" FontSize="12"/>
+                            <TextBlock Text="{x:Bind tracks[3]}" Margin="20, 20, 0, 0" FontSize="12"/>
+                            <TextBlock Text="{x:Bind singers[3]}" Margin="30, 10, 0, 0" FontSize="12"/>
+                        </StackPanel>
+                    </Canvas>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+        
+        <RelativePanel Grid.Row="6">
+            <TextBlock Text="专辑推送" FontSize="18" Height="40" Margin="10, 10, 0, 0" RelativePanel.AlignLeftWithPanel="True"/>
+            <Button Name="AlbumRelease" Background="White" Content="更多>" FontSize="16" Height="40" VerticalAlignment="Center" Margin="0, 0, 10, 0" RelativePanel.AlignRightWithPanel="True" Click="AlbumRelease_Click"/>
+        </RelativePanel>
+        <GridView Name="ReleaseAlbum" Grid.Row="7" ItemsSource="{x:Bind albums}" IsItemClickEnabled="True" ItemClick="ReleaseAlbum_ItemClick">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="data:Album">
+                    <StackPanel Width="{Binding ElementName=width3, Path=Width}" Margin="10, 10, 10, 0">
+                        <Image  Height="{Binding ElementName=width3, Path=Width}"  Width="{Binding ElementName=width3, Path=Width}" Source="{x:Bind cover}"/>
+                        <TextBlock Height="20" FontSize="12" Text="{x:Bind name}" Width="{Binding ElementName=width3, Path=Width}"/>
+                        <TextBlock Height="20" FontSize="12" Text="{x:Bind singers, Converter={StaticResource singersConvert}}" Width="{Binding ElementName=width3, Path=Width}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+    </Grid>
+</Page>

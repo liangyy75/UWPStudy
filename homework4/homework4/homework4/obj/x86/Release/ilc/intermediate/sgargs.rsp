@@ -1,0 +1,11 @@
+/out:"D:\software\Workspaces\Visual Studio 2017\win 10 uwp\homework\homework4\homework4\homework4\obj\x86\Release\ilc\intermediate\SgGenerated\\"
+/int:"D:\software\Workspaces\Visual Studio 2017\win 10 uwp\homework\homework4\homework4\homework4\obj\x86\Release\ilc\intermediate\\"
+/ref:"D:\software\Workspaces\Visual Studio 2017\win 10 uwp\homework\homework4\homework4\homework4\obj\x86\Release\ilc\intermediate\PreMergeILTransformed"
+/ref:"D:\software\Workspaces\Visual Studio 2017\win 10 uwp\homework\homework4\homework4\homework4\obj\x86\Release\ilc\intermediate\TransformedSRWR"
+/ref:"D:\software\Workspaces\Visual Studio 2017\win 10 uwp\homework\homework4\homework4\homework4\obj\x86\Release\ilc\in"
+/ref:"D:\software\Workspaces\Visual Studio 2017\win 10 uwp\homework\homework4\homework4\homework4\obj\x86\Release\ilc\in\\"
+/ref:"D:\software\Workspaces\Visual Studio 2017\win 10 uwp\homework\homework4\homework4\homework4\obj\x86\Release\ilc\in\\"
+/ref:"C:\Program Files (x86)\Microsoft SDKs\NuGetPackagesFallback\microsoft.net.native.compiler\1.7.3\tools\x86\ilc\lib\Private\\"
+/ref:"D:\software\Workspaces\Visual Studio 2017\win 10 uwp\homework\homework4\homework4\homework4\obj\x86\Release\ilc\in\WinMetadata"
+/ca:System.Private.CoreLib
+/cscpath:"C:\Program Files (x86)\Microsoft SDKs\NuGetPackagesFallback\microsoft.net.native.compiler\1.7.3\tools\x86\ilc\csc"

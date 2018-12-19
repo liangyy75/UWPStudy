@@ -1,0 +1,54 @@
+﻿<Page
+    x:Class="UWPMidTerm.Pages.SongSheetRecommend"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWPMidTerm.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="using:UWPMidTerm.Models"
+    mc:Ignorable="d">
+
+    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Border Name="border1" Visibility="Collapsed"/>
+        <Border Name="border2" Visibility="Collapsed"/>
+        <Border Name="border3" Visibility="Collapsed"/>
+        <StackPanel>
+            <GridView HorizontalAlignment="Center" x:Name="songSheetsTag" ItemsSource="{x:Bind categoryGroup}" IsItemClickEnabled="True" ItemClick="ItemSelect">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="md:CategoryGroup">
+                        <TextBlock TextAlignment="Center" Text="{Binding CategoryGroupName}" FontSize="20" Width="{Binding ElementName=border1, Path=Width}"></TextBlock>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </StackPanel>
+        <StackPanel Height="100">
+            <GridView HorizontalAlignment="Center" ItemsSource="{x:Bind currentCategories}" IsItemClickEnabled="True" ItemClick="Select_SongSheet">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="md:Category">
+                        <TextBlock Text="{Binding CategoryName}" Width="70" TextAlignment="Center"></TextBlock>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </StackPanel>
+        <StackPanel>
+            <GridView Name="SongSheet" ItemsSource="{x:Bind songSheets}" IsItemClickEnabled="True">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="md:SongSheet">
+                        <StackPanel Width="{Binding ElementName=border2, Path=Width}" Margin="10, 10, 10, 0">
+                            <Image Width="{Binding ElementName=border2, Path=Width}" Source="{x:Bind cover}"/>
+                            <StackPanel Margin="10, 0, 0, 0">
+                                <TextBlock Height="20" FontSize="11" TextAlignment="Center"  Text="{x:Bind dissname}"/>
+                                <TextBlock Height="20" FontSize="11" TextAlignment="Center" Text="{x:Bind desc}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </StackPanel>
+        <GridView HorizontalAlignment="Center">
+            <Button Content="上一页" Click="Button_Click" Margin="0,0,29,0"></Button>
+            <Button Content="下一页" Click="Button_Click_1" Margin="29,0,0,0"></Button>
+        </GridView>
+    </StackPanel>
+
+</Page>

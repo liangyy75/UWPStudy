@@ -1,0 +1,102 @@
+﻿<Page x:ConnectionId='1'
+    x:Class="MusicPlayer.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MusicPlayer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="using:MusicPlayer.Converters"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <converter:SliderConverter x:Key="converter" />
+    </Page.Resources>
+
+    <Grid x:ConnectionId='2' Name="MyGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" MinWidth="800">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <RelativePanel x:ConnectionId='3' Name="TrueTitleBar" VerticalAlignment="Top">
+            <Button x:ConnectionId='35' Name="MusicButton" Background="White" Content="&#xE189;" FontFamily="Segoe MDL2 Assets"                           Height="30" Margin="10, 0, 10, 0" RelativePanel.AlignLeftWithPanel="True"/>
+            <Button x:ConnectionId='36' Name="VideoButton" Background="White" Content="&#xE70A;" FontFamily="Segoe MDL2 Assets"                           Height="30" RelativePanel.RightOf="MusicButton"/>
+            <Button x:ConnectionId='37' Name="BackButton" Content="返回" Visibility="Collapsed"                          RelativePanel.RightOf="VideoButton"/>
+            <AutoSuggestBox x:ConnectionId='38' Name="SearchAutoSuggestBox" PlaceholderText="Search for media" Width="200" QueryIcon="Find"                                               
+                                                                                 RelativePanel.AlignRightWithPanel="True"/>
+        </RelativePanel>
+        <Grid x:ConnectionId='4' Name="MyMeidaPlace" Grid.Row="1" AllowDrop="True"                                                          >
+            <Ellipse x:ConnectionId='31' x:Name="AlbumCover" Width="300" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5, 0.5" Visibility="Collapsed">
+                <Ellipse.RenderTransform>
+                    <CompositeTransform />
+                </Ellipse.RenderTransform>
+                <Ellipse.Resources>
+                    <Storyboard x:ConnectionId='33' x:Name="EllipseStoryboard" RepeatBehavior="Forever">
+                        <DoubleAnimation Duration="0:0:20"  To="360"  Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="AlbumCover"/>
+                    </Storyboard>
+                </Ellipse.Resources>
+                <Ellipse.Fill>
+                    <ImageBrush x:ConnectionId='34' x:Name="MyImage"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <MediaPlayerElement x:ConnectionId='32' Background="White" Name="MyMediaPlayerElement" AreTransportControlsEnabled="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </Grid>
+        <RelativePanel x:ConnectionId='5' Name="MyBottonControl" Grid.Row="2" Height="40" VerticalAlignment="Bottom">
+            <StackPanel x:ConnectionId='6' Name="SMG" Orientation="Horizontal" RelativePanel.AlignLeftWithPanel="True" Margin="0, 0, 10, 0" Width="180">
+                <AppBarButton x:ConnectionId='20' Name="Start" Icon="Play" Label="Start"                     Height="40" Width="40"/>
+                <AppBarButton x:ConnectionId='21' Name="Pause" Icon="Pause" Label="Pause"                     Height="40" Width="40"/>
+                <AppBarButton x:ConnectionId='22' Name="Stop" Icon="Stop" Label="Stop"                    Height="40" Width="40"/>
+                <Button x:ConnectionId='23' Name="Speed" Content="1" Height="40" Width="60" Background="Transparent"                    >
+                    <Button.Resources>
+                        <MenuFlyout x:ConnectionId='24' x:Name="SpeedMenuFlyout">
+                            <MenuFlyout.Items>
+                                <MenuFlyoutItem x:ConnectionId='25' Text="0.5"                             />
+                                <MenuFlyoutItem x:ConnectionId='26' Text="0.75"                             />
+                                <MenuFlyoutItem x:ConnectionId='27' Text="1"                             />
+                                <MenuFlyoutItem x:ConnectionId='28' Text="1.25"                             />
+                                <MenuFlyoutItem x:ConnectionId='29' Text="1.5"                             />
+                                <MenuFlyoutItem x:ConnectionId='30' Text="2"                             />
+                            </MenuFlyout.Items>
+                        </MenuFlyout>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+            <Grid RelativePanel.RightOf="SMG" RelativePanel.LeftOf="WTF">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    <TextBlock x:ConnectionId='17' Name="MusicTime" Text="00:00" FontSize="12" VerticalAlignment="Center" Width="30"/>
+                    <Slider x:ConnectionId='18' Name="MusicProgress" Margin="10, 0, 10, 0" HorizontalAlignment="Stretch" MinWidth="260" VerticalAlignment="Center" 
+                                                                                                                                />
+                    <TextBlock x:ConnectionId='19' Name="MusicTotalTime" Text="00:00" VerticalAlignment="Center" FontSize="12" Width="30"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <AppBarButton x:ConnectionId='15' Name="Volume" Icon="Volume" Label="Volume" Width="40" Height="40"/>
+                    <Slider x:ConnectionId='16' Name="VolumeRange" Margin="10, 0, 10, 0" HorizontalAlignment="Stretch" MinWidth="130" VerticalAlignment="Center" 
+                                                                    Minimum="0" Maximum="1" Value="0.5" StepFrequency="0.1"/>
+                </StackPanel>
+            </Grid>
+            <StackPanel x:ConnectionId='7' Name="WTF" Orientation="Horizontal" RelativePanel.AlignRightWithPanel="True" Margin="10, 0, 0, 0" Width="160">
+                <AppBarButton Icon="List" Label="PlayStyle" Height="40" Width="40">
+                    <AppBarButton.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem x:ConnectionId='12' Text="单曲播放"                      />
+                            <MenuFlyoutItem x:ConnectionId='13' Text="循环播放"                       />
+                            <MenuFlyoutItem x:ConnectionId='14' Text="随机播放"                         />
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton x:ConnectionId='8' Name="Add" Icon="OpenFile" Label="OpenFile"                   Height="40" Width="40"/>
+                <AppBarButton x:ConnectionId='9' Name="Delete" Icon="Delete" Label="Delete"                      Height="40" Width="40"/>
+                <AppBarButton x:ConnectionId='10' Name="ScreenControl" Label="FullScreen"                             Height="40" Width="40">
+                    <AppBarButton.Icon>
+                        <SymbolIcon x:ConnectionId='11' Name="ChangeScreen" Symbol="FullScreen"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </StackPanel>
+        </RelativePanel>
+    </Grid>
+</Page>
+

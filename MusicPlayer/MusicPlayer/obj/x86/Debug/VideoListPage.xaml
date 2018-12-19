@@ -1,0 +1,54 @@
+﻿<Page x:ConnectionId='1'
+    x:Class="MusicPlayer.VideoListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MusicPlayer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:MusicPlayer.Models"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel x:ConnectionId='2' Name="MyStackPane" Margin="10">
+            <Button x:ConnectionId='13' Name="LocalVideo" Content="本地视频" Width="140" Margin="0, 0, 0, 10"                         />
+            <Button x:ConnectionId='14' Name="AddVideo" Content="添加视频" Width="140" Margin="0, 0, 0, 10"                       />
+            <Button x:ConnectionId='15' Name="MediaPlay" Content="跳转播放" Width="140" Margin="0, 0, 0, 10"                        />
+        </StackPanel>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <RelativePanel>
+                <Button x:ConnectionId='11' Name="BackButton" Content="返回" Visibility="Collapsed"                          RelativePanel.AlignLeftWithPanel="True"/>
+                <AutoSuggestBox x:ConnectionId='12' Name="SearchVideo" PlaceholderText="Search for video" Width="200" QueryIcon="Find"                                      
+                                                                        RelativePanel.AlignRightWithPanel="True"/>
+            </RelativePanel>
+            <GridView x:ConnectionId='3' Name="MyVideoList" Grid.Row="1"                                            IsItemClickEnabled="True"                                  
+                  AllowDrop="True"                                                         CanReorderItems="True">
+                <GridView.Resources>
+                    <MenuFlyout x:ConnectionId='4' x:Name="RightMenuFlyout">
+                        <MenuFlyout.Items>
+                            <MenuFlyoutItem x:ConnectionId='5' Name="Play" Text="Play"                   />
+                            <MenuFlyoutItem x:ConnectionId='6' Name="Delete" Text="Delete"                     />
+                            <MenuFlyoutItem x:ConnectionId='7' Name="Share" Text="Share"                    />
+                        </MenuFlyout.Items>
+                    </MenuFlyout>
+                </GridView.Resources>
+                <GridView.ItemTemplate>
+                    <DataTemplate                        >
+                        <StackPanel x:ConnectionId='8' Width="100" IsRightTapEnabled="True"                                     >
+                            <Image x:ConnectionId='9' Name="VideoImage" Height="110" Width="100"                             />
+                            <TextBlock x:ConnectionId='10' Name="VideoTitle" Height="30" Width="100"                      />
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </Grid>
+    </Grid>
+</Page>
+

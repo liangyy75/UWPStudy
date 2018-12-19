@@ -1,0 +1,93 @@
+﻿<Page
+    x:Class="MusicPlayer.MusicListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MusicPlayer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:MusicPlayer.Models"
+    xmlns:converter="using:MusicPlayer.Converters"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <converter:DurationConverter x:Key="converter" />
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" MinWidth="800">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Name="MyStackPane" Margin="10">
+            <Button Name="LocalMusic" Content="本地音乐" Width="140" Margin="0, 0, 0, 10" Click="LocalMusic_Click"/>
+            <Button Name="AddMusic" Content="添加音乐" Width="140" Margin="0, 0, 0, 10" Click="AddMusic_Click"/>
+            <Button Name="MediaPlay" Content="跳转播放" Width="140" Margin="0, 0, 0, 10" Click="MediaPlay_Click"/>
+            <Button Name="Test" Content="跳转播放" Width="140" Margin="0, 0, 0, 10" Click="Test_Click"/>
+            <Image Name="VideoImage" Height="160" Width="160"/>
+        </StackPanel>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <RelativePanel>
+                <Button Name="BackButton" Content="返回" Visibility="Collapsed" Click="BackButton_Click" RelativePanel.AlignLeftWithPanel="True"/>
+                <AutoSuggestBox Name="SearchMusic" PlaceholderText="Search for music" Width="200" QueryIcon="Find" TextChanged="SearchMusic_TextChanged"
+                            QuerySubmitted="SearchMusic_QuerySubmitted" RelativePanel.AlignRightWithPanel="True"/>
+            </RelativePanel>
+            <Grid Grid.Row="1" Height="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="50"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="音乐标题" HorizontalAlignment="Center"/>
+                <TextBlock Text="歌手" Grid.Column="1" HorizontalAlignment="Center"/>
+                <TextBlock Text="专辑" Grid.Column="2" HorizontalAlignment="Center"/>
+                <TextBlock Text="时长" Grid.Column="3" HorizontalAlignment="Center"/>
+                <TextBlock Text="操作" Grid.Column="4" HorizontalAlignment="Center"/>
+            </Grid>
+            <ScrollViewer Name="MyScrollViewer" Margin="10" Grid.Row="2">
+                <ListView Name="MyMusicList" ItemsSource="{x:Bind songManager.songs}" IsItemClickEnabled="True" ItemClick="MyMusicList_ItemClick"
+                          AllowDrop="True" Drop="MyMusicList_Drop" DragOver="MyMusicList_DragOver" CanReorderItems="True" IsSwipeEnabled="True">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="data:Song">
+                            <UserControl>
+                                <Grid Height="40">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="40"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Name="TitleTextBlock" Text="{x:Bind Title}" VerticalAlignment="Center" Margin="10, 0, 0, 0"/>
+                                    <TextBlock Name="ArtistTextBlock" Text="{x:Bind Artist}" Grid.Column="1" VerticalAlignment="Center" Margin="10, 0, 0, 0"/>
+                                    <TextBlock Name="AlbumTextBlock" Text="{x:Bind Album}" Grid.Column="2" VerticalAlignment="Center" Margin="10, 0, 0, 0"/>
+                                    <TextBlock Name="TimeTextBlock" Text="{x:Bind Duration, Converter={StaticResource converter}}" Grid.Column="3" VerticalAlignment="Center" Margin="10, 0, 0, 0"/>
+                                    <AppBarButton Grid.Column="4" Icon="Setting" IsCompact="True" VerticalAlignment="Center" Height="40" Width="40" Margin="10, 0, 0, 0">
+                                        <AppBarButton.Flyout>
+                                            <MenuFlyout>
+                                                <MenuFlyoutItem Text="Play" Click="PlayMenuFlyoutItem_Click"/>
+                                                <MenuFlyoutItem Text="Delete" Click="DeleteMenuFlyoutItem_Click"/>
+                                                <MenuFlyoutItem Text="Share" Click="ShareMenuFlyoutItem_Click"/>
+                                            </MenuFlyout>
+                                        </AppBarButton.Flyout>
+                                    </AppBarButton>
+                                </Grid>
+                            </UserControl>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>

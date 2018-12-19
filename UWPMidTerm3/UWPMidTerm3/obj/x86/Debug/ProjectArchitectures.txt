@@ -1,0 +1,1 @@
+D:\software\Workspaces\Visual Studio 2017\win 10 uwp\homework\UWPMidTerm3\UWPMidTerm3\UWPMidTerm3.csproj;x86

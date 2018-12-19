@@ -1,0 +1,76 @@
+﻿<Page x:ConnectionId='1'
+    x:Class="UWPMidTerm3.Pages.SongSheetRecommend"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWPMidTerm3.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="using:UWPMidTerm3.Models"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Line x:ConnectionId='2' Name="line1" Visibility="Collapsed"/>
+        <Image Visibility="Collapsed">
+            <Image.Clip>
+                <RectangleGeometry x:ConnectionId='21' x:Name="rectgome1"/>
+            </Image.Clip>
+        </Image>
+
+        <StackPanel MaxWidth="1200">
+            <GridView x:ConnectionId='3' Name="BigTags"                                SelectionMode="None" ItemContainerStyle="{StaticResource GridViewItemNoneStyle}" IsItemClickEnabled="True"                               HorizontalAlignment="Center" Margin="10, 10, 10, 0" BorderBrush="Gray" BorderThickness="0, 0, 0, 1">
+                <GridView.ItemTemplate>
+                    <DataTemplate                    >
+                        <Grid x:ConnectionId='18' Width="70">
+                            <Rectangle x:ConnectionId='19' RadiusX="5" RadiusY="5" Width="70" Height="30"                            VerticalAlignment="Center"/>
+                            <TextBlock x:ConnectionId='20' VerticalAlignment="Center" HorizontalAlignment="Center"                                                      />
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+
+            <GridView x:ConnectionId='4' Name="SmallTags" SelectionMode="None" ItemContainerStyle="{StaticResource GridViewItemNoneStyle}" IsItemClickEnabled="True"                                 HorizontalAlignment="Center">
+                <GridView.ItemTemplate>
+                    <DataTemplate                    >
+                        <Grid x:ConnectionId='15' Width="70">
+                            <Rectangle x:ConnectionId='16' RadiusX="5" RadiusY="5" Width="70" Height="30"                            VerticalAlignment="Center"/>
+                            <TextBlock x:ConnectionId='17' VerticalAlignment="Center" HorizontalAlignment="Center"                                                      />
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+
+            <GridView x:ConnectionId='5' Grid.Row="2" Name="SongSheetList"                                   SelectionMode="None"  IsItemClickEnabled="True" HorizontalAlignment="Center" ItemContainerStyle="{StaticResource GridViewItemNoneStyle}"                                    >
+                <GridView.ItemTemplate>
+                    <DataTemplate                          >
+                        <StackPanel x:ConnectionId='8' Width="{Binding ElementName=line1, Path=Width}" Margin="10">
+                            <Canvas x:ConnectionId='9' Width="{Binding ElementName=line1, Path=Width}" Height="{Binding ElementName=line1, Path=Width}" Name="ImageCanvas"                                                                                      >
+                                <Canvas.Clip>
+                                    <RectangleGeometry Rect="{Binding ElementName=rectgome1, Path=Rect}"/>
+                                </Canvas.Clip>
+                                <Image x:ConnectionId='13' Name="AlbumCover" Width="{Binding ElementName=line1, Path=Width}"                        />
+                                <Grid Width="{Binding ElementName=line1, Path=Width}" Height="{Binding ElementName=line1, Path=Width}">
+                                    <Grid.Background>
+                                        <SolidColorBrush x:Name="ImageCover" Color="Black" Opacity="0"/>
+                                    </Grid.Background>
+                                    <Grid Width="50" Height="50" Canvas.Left="{Binding ElementName=line1, Path=Height}" Canvas.Top="{Binding ElementName=line1, Path=Height}">
+                                        <Rectangle x:ConnectionId='14' Name="Ellipse" RadiusX="25" RadiusY="25" Fill="White" Width="0" Height="0"                                        />
+                                        <TextBlock Name="AlbumPlay" FontFamily="Segoe MDL2 Assets" Text="&#xE102;" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0"/>
+                                    </Grid>
+                                </Grid>
+                            </Canvas>
+                            <TextBlock x:ConnectionId='10'                       FontSize="12"/>
+                            <TextBlock x:ConnectionId='11'                             FontSize="12"/>
+                            <TextBlock x:ConnectionId='12'                      FontSize="12"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+
+            <GridView HorizontalAlignment="Center">
+                <Button x:ConnectionId='6' Content="上一页"                      Margin="0,0,29,0"></Button>
+                <Button x:ConnectionId='7' Content="下一页"                        Margin="29,0,0,0"></Button>
+            </GridView>
+        </StackPanel>
+    </Grid>
+</Page>
+

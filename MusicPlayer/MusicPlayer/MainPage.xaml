@@ -1,0 +1,101 @@
+﻿<Page
+    x:Class="MusicPlayer.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MusicPlayer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="using:MusicPlayer.Converters"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <converter:SliderConverter x:Key="converter" />
+    </Page.Resources>
+
+    <Grid Name="MyGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" MinWidth="800">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <RelativePanel Name="TrueTitleBar" VerticalAlignment="Top">
+            <Button Name="MusicButton" Background="White" Content="&#xE189;" FontFamily="Segoe MDL2 Assets" Click="MusicButton_Click" Height="30" Margin="10, 0, 10, 0" RelativePanel.AlignLeftWithPanel="True"/>
+            <Button Name="VideoButton" Background="White" Content="&#xE70A;" FontFamily="Segoe MDL2 Assets" Click="VideoButton_Click" Height="30" RelativePanel.RightOf="MusicButton"/>
+            <Button Name="BackButton" Content="返回" Visibility="Collapsed" Click="BackButton_Click" RelativePanel.RightOf="VideoButton"/>
+            <AutoSuggestBox Name="SearchAutoSuggestBox" PlaceholderText="Search for media" Width="200" QueryIcon="Find" TextChanged="SearchAutoSuggestBox_TextChanged"
+                            QuerySubmitted="SearchAutoSuggestBox_QuerySubmitted" RelativePanel.AlignRightWithPanel="True"/>
+        </RelativePanel>
+        <Grid Name="MyMeidaPlace" Grid.Row="1" AllowDrop="True" Drop="MyMeidaPlace_Drop" DragOver="MyMeidaPlace_DragOver">
+            <Ellipse x:Name="AlbumCover" Width="300" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5, 0.5" Visibility="Collapsed">
+                <Ellipse.RenderTransform>
+                    <CompositeTransform />
+                </Ellipse.RenderTransform>
+                <Ellipse.Resources>
+                    <Storyboard x:Name="EllipseStoryboard" RepeatBehavior="Forever">
+                        <DoubleAnimation Duration="0:0:20"  To="360"  Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="AlbumCover"/>
+                    </Storyboard>
+                </Ellipse.Resources>
+                <Ellipse.Fill>
+                    <ImageBrush x:Name="MyImage"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <MediaPlayerElement Background="White" Name="MyMediaPlayerElement" AreTransportControlsEnabled="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </Grid>
+        <RelativePanel Name="MyBottonControl" Grid.Row="2" Height="40" VerticalAlignment="Bottom">
+            <StackPanel Name="SMG" Orientation="Horizontal" RelativePanel.AlignLeftWithPanel="True" Margin="0, 0, 10, 0" Width="180">
+                <AppBarButton Name="Start" Icon="Play" Label="Start" Click="Start_Click" Height="40" Width="40"/>
+                <AppBarButton Name="Pause" Icon="Pause" Label="Pause" Click="Pause_Click" Height="40" Width="40"/>
+                <AppBarButton Name="Stop" Icon="Stop" Label="Stop" Click="Stop_Click" Height="40" Width="40"/>
+                <Button Name="Speed" Content="1" Height="40" Width="60" Background="Transparent" Click="Speed_Click">
+                    <Button.Resources>
+                        <MenuFlyout x:Name="SpeedMenuFlyout">
+                            <MenuFlyout.Items>
+                                <MenuFlyoutItem Text="0.5" Click="MenuFlyoutItem_Click"/>
+                                <MenuFlyoutItem Text="0.75" Click="MenuFlyoutItem_Click"/>
+                                <MenuFlyoutItem Text="1" Click="MenuFlyoutItem_Click"/>
+                                <MenuFlyoutItem Text="1.25" Click="MenuFlyoutItem_Click"/>
+                                <MenuFlyoutItem Text="1.5" Click="MenuFlyoutItem_Click"/>
+                                <MenuFlyoutItem Text="2" Click="MenuFlyoutItem_Click"/>
+                            </MenuFlyout.Items>
+                        </MenuFlyout>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+            <Grid RelativePanel.RightOf="SMG" RelativePanel.LeftOf="WTF">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    <TextBlock Name="MusicTime" Text="00:00" FontSize="12" VerticalAlignment="Center" Width="30"/>
+                    <Slider Name="MusicProgress" Margin="10, 0, 10, 0" HorizontalAlignment="Stretch" MinWidth="260" VerticalAlignment="Center" 
+                            Value="{x:Bind mediaTimelineController.Position, Converter={StaticResource converter}, Mode=TwoWay}"/>
+                    <TextBlock Name="MusicTotalTime" Text="00:00" VerticalAlignment="Center" FontSize="12" Width="30"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <AppBarButton Name="Volume" Icon="Volume" Label="Volume" Width="40" Height="40"/>
+                    <Slider Name="VolumeRange" Margin="10, 0, 10, 0" HorizontalAlignment="Stretch" MinWidth="130" VerticalAlignment="Center" 
+                            ValueChanged="VolumeRange_ValueChanged" Minimum="0" Maximum="1" Value="0.5" StepFrequency="0.1"/>
+                </StackPanel>
+            </Grid>
+            <StackPanel Name="WTF" Orientation="Horizontal" RelativePanel.AlignRightWithPanel="True" Margin="10, 0, 0, 0" Width="160">
+                <AppBarButton Icon="List" Label="PlayStyle" Height="40" Width="40">
+                    <AppBarButton.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="单曲播放" Click="Default_Click"/>
+                            <MenuFlyoutItem Text="循环播放" Click="LoopPlay_Click"/>
+                            <MenuFlyoutItem Text="随机播放" Click="RandomPlay_Click"/>
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton Name="Add" Icon="OpenFile" Label="OpenFile" Click="Add_Click" Height="40" Width="40"/>
+                <AppBarButton Name="Delete" Icon="Delete" Label="Delete" Click="Delete_Click" Height="40" Width="40"/>
+                <AppBarButton Name="ScreenControl" Label="FullScreen" Click="ScreenControl_Click" Height="40" Width="40">
+                    <AppBarButton.Icon>
+                        <SymbolIcon Name="ChangeScreen" Symbol="FullScreen"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </StackPanel>
+        </RelativePanel>
+    </Grid>
+</Page>
